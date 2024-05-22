@@ -8,6 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/VRCinema/Scenes/Example_Projector.unity
     guid: b017c82205276f64eafa6071febdfc5d
+  - enabled: 0
+    path: Assets/Samples/WebXR Interactions/0.22.0/XR Interaction Toolkit Sample
+      - Built-in Render Pipeline/Scenes/WebXRInteractionToolkit.unity
+    guid: eb8ec87ae52c23d47afd4c28c6e4801a
   m_configObjects:
     WebXR.Settings: {fileID: 11400000, guid: 0e28e234ca479dd4ca9c0600178a2bac, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 81db0162a745c574a8d1c54907e07320, type: 2}

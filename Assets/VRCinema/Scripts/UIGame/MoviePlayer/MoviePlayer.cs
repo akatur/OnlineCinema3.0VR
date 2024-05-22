@@ -29,8 +29,6 @@ public class MoviePlayer : MonoBehaviour
             Cursor.lockState = isCursorVisible ? CursorLockMode.None : CursorLockMode.Locked;
         }
 
-
-
         float mouseX = Input.GetAxis("Mouse X") * sensitivity;
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 

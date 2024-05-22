@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class MovieCardPresenter : MonoBehaviour
 {
-
     [SerializeField] private Button btnPosterMovie;
     [SerializeField] private Button btnFavorit;
     [SerializeField] private Button btnLike;
@@ -31,18 +30,37 @@ public class MovieCardPresenter : MonoBehaviour
 
     public string urlPhotoName;
 
-    public MovieCards movie;
-    public event Action <MovieCardPresenter> OnButtonFavorClick;
-    public event Action <MovieCardPresenter> OnButtonLikeClick;
-    public event Action <MovieCardPresenter> OnButtonWatchClick;
+    [SerializeField] private TMP_Text nickNames;
+    [SerializeField] private TMP_InputField nickName;
+    [SerializeField] private TMP_InputField movie_id;
+    [SerializeField] private TMP_InputField comment;
+    [SerializeField] private TMP_Text created_at;
 
-    public event Action <MovieCardPresenter> OnButtonToPanoramClick;
-    public event Action <MovieCardPresenter> OnButtonDeleteLikeClick;
-    public event Action <MovieCardPresenter> OnButtonDeleteFavorClick;
-    public event Action <MovieCardPresenter> OnButtonDeleteWatchClick;
+    [SerializeField] private TMP_InputField InputComment;
+    [SerializeField] private Button btnSendMessage;
+    [SerializeField] private CardsControllerModel cardsControllerModel;
+    public string userPhoto;
+    public Image PhotoUser;
+
+    public MovieCards movie;
+    public event Action<MovieCardPresenter> OnButtonFavorClick;
+    public event Action<MovieCardPresenter> OnButtonLikeClick;
+    public event Action<MovieCardPresenter> OnButtonWatchClick;
+    public event Action<MovieCardPresenter> OnButtonToPanoramClick;
+    public event Action<MovieCardPresenter> OnButtonToCommentClick;
+
+    public event Action<MovieCardPresenter> OnButtonToAddCommentClick;
+
+
+    public event Action<MovieCardPresenter> OnButtonDeleteLikeClick;
+    public event Action<MovieCardPresenter> OnButtonDeleteFavorClick;
+    public event Action<MovieCardPresenter> OnButtonDeleteWatchClick;
 
     private void Start()
     {
+        cardsControllerModel = new CardsControllerModel();
+
+        
         if (btnToPanoramCard != null)
         {
             btnToPanoramCard.onClick.AddListener(ButtonToPanoramClick);
@@ -79,18 +97,31 @@ public class MovieCardPresenter : MonoBehaviour
 
     public void Init(MovieCards movie)
     {
-        movieTitle.text = movie.movieTitle;
 
-        if (movieGenre != null )
+        if (nickName != null)
+        {
+            nickName.text = movie.username;
+        }
+        if (comment != null)
+        {
+            comment.text = movie.comment;
+        }
+        if (created_at != null)
+        {
+            created_at.text = movie.created_at;
+        }
+        if (movieTitle != null)
+        {
+            movieTitle.text = movie.movieTitle;
+        }
+        if (movieGenre != null)
         {
             movieGenre.text = movie.genre;
         }
-
         if (rating != null)
         {
             rating.text = movie.rating;
         }
-
         if (duration != null)
         {
             duration.text = movie.duration;
@@ -99,37 +130,65 @@ public class MovieCardPresenter : MonoBehaviour
         {
             realeaseYear.text = movie.release_year;
         }
-
         if (movieDiscription != null)
         {
             movieDiscription.text = movie.discription;
         }
-        urlPhotoName = movie.urlPhotoName;
-        this.movie = movie;
+        if (urlPhotoName != null)
+        {
+            urlPhotoName = movie.urlPhotoName;
+        }
+        if (userPhoto != null)
+        {
+            userPhoto = movie.userPhoto;
+        }
 
-        Debug.Log("PosterImage"+urlPhotoName);
+        this.movie = movie;
         StartCoroutine(CardsControllerModel.LoadImageFromURL(urlPhotoName, PosterMovie));
+        //StartCoroutine(CardsControllerModel.LoadIUsermageFromURL(userPhoto, PhotoUser));
     }
+    public void ButtonAddCommentClick()
+    {
+
+        OnButtonToAddCommentClick?.Invoke(this);
+
+
+
+
+
+        //string comment = InputComment.text.Trim();
+        ////cardsControllerModel.AddToComment(  comment);
+        //StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment));
+    }
+
+
 
     public void ButtonToDeletePanoramClick()
     {
         gameObject.SetActive(false);
-        
     }
+
+    
+
+
     public void ButtonToPanoramClick()
     {
         OnButtonToPanoramClick?.Invoke(this);
+        OnButtonToCommentClick?.Invoke(this);
     }
+
     public void ButtonDeleteLikeClick()
     {
         OnButtonDeleteLikeClick?.Invoke(this);
         Destroy(this.gameObject);
     }
+
     public void ButtonDeletePanoram()
     {
         OnButtonDeleteLikeClick?.Invoke(this);
         Destroy(this.gameObject);
     }
+
     public void ButtonDeleteFavClick()
     {
         OnButtonDeleteFavorClick?.Invoke(this);
@@ -156,5 +215,7 @@ public class MovieCardPresenter : MonoBehaviour
     {
         OnButtonWatchClick?.Invoke(this);
     }
+
+    
 
 }

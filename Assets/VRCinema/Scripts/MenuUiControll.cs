@@ -15,7 +15,7 @@ public class MenuUiControll : MonoBehaviour
     [SerializeField] private  GameObject MovePlayer;
 
     [SerializeField] private  GameObject UIMenu;
-    [SerializeField] private  GameObject UISettings;
+    //[SerializeField] private  GameObject UISettings;
     [SerializeField] private movePlayer movePlayer;
 
     
@@ -70,32 +70,32 @@ public class MenuUiControll : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isOpenedTree = !isOpenedTree;
+        //if (Input.GetKeyDown(KeyCode.Escape))
+        //{
+        //    isOpenedTree = !isOpenedTree;
 
-            if (isOpenedTree)
-            {
-                movePlayer.sensitivity = 0;
-                Cursor.visible = false;
-                UIMenu.SetActive(true);
-                UISrollCards.SetActive(false);
-                TopTable.SetActive(false);
-                UIProfile.SetActive(false);
-                UIFav.SetActive(false);
-                UILike.SetActive(false);
-                UIWatch.SetActive(false);
+        //    if (isOpenedTree)
+        //    {
+        //        movePlayer.sensitivity = 0;
+        //        Cursor.visible = false;
+        //        UIMenu.SetActive(true);
+        //        UISrollCards.SetActive(false);
+        //        TopTable.SetActive(false);
+        //        UIProfile.SetActive(false);
+        //        UIFav.SetActive(false);
+        //        UILike.SetActive(false);
+        //        UIWatch.SetActive(false);
                 
 
-            }
-            else
-            {
-                Cursor.visible = true;
-                UIMenu.SetActive(false);
-                UISettings.SetActive(false);
-                movePlayer.sensitivity = 2;
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        Cursor.visible = true;
+        //        UIMenu.SetActive(false);
+        //        //UISettings.SetActive(false);
+        //        movePlayer.sensitivity = 2;
+        //    }
+        //}
 
         if (Input.GetKeyDown(KeyCode.RightControl))
         {
@@ -124,14 +124,14 @@ public class MenuUiControll : MonoBehaviour
                 if (isOpenedTwo)
                 {
                     UIAddMovie.SetActive(true);
-                    movePlayer.sensitivity = 2;
-                    Cursor.visible = false;
+                    movePlayer.sensitivity = 0;
+                    Cursor.visible = true;
                 }
                 else
                 {
                     UIAddMovie.SetActive(false);
-                    movePlayer.sensitivity = 0;
-                    Cursor.visible = true;
+                    movePlayer.sensitivity = 2;
+                    Cursor.visible = false;
                 }
             }
             else

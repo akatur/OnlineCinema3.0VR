@@ -18,6 +18,9 @@ public class MenuController : MonoBehaviour
 
     private void Awake()
     {
+
+
+
         btnSettings.onClick.AddListener(StateWindowUISettings);
         btnNext.onClick.AddListener(StateWindowUIMenu);
         btnBack.onClick.AddListener(StateWindowCloseUISettings);

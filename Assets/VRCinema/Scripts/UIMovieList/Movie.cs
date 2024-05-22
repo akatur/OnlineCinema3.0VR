@@ -30,7 +30,22 @@ public class MovieCards
     public string duration; 
     [JsonProperty("release_year")]
     public string release_year;
-    public MovieCards(string movieTitle, string userId, string watchedId, string favoriteId, string release_year , string duration, string rating, string genre, string discription,string urlPhotoName,  string movieURL, string movieId, string likeId)
+    [JsonProperty("comment_id ")]
+    public string comment_id;
+    [JsonProperty("username")]
+    public string username;
+    [JsonProperty("comment")]
+    public string comment;
+    [JsonProperty("created_at")]
+    public string created_at;
+    [JsonProperty("user_photo")]
+    public string userPhoto;
+
+    public MovieCards(string movieTitle, string userId, string watchedId, string favoriteId, 
+        string release_year , string duration, 
+        string rating, string genre, string discription,string urlPhotoName,  
+        string movieURL, string movieId, string likeId, string comment_id, 
+        string username, string comment, string created_at, string userPhoto)
     {
         this.movieTitle = movieTitle;
         this.urlPhotoName = urlPhotoName;
@@ -45,6 +60,11 @@ public class MovieCards
         this.release_year = release_year;
         this.duration = duration;
         this.rating = rating;
+        this.userPhoto = userPhoto;
+        this.created_at = created_at;
+        this.comment = comment;
+        this.username = username;
+        this.comment_id = comment_id;
     }
 
     public string ToJson()

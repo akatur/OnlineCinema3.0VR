@@ -6,6 +6,7 @@ using System.Net;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 
 
 public class TopMenuController : MonoBehaviour
@@ -33,6 +34,8 @@ public class TopMenuController : MonoBehaviour
     [SerializeField] private GameObject UIWatchedList;
     [SerializeField] private GameObject UIProfile;
     [SerializeField] private GameObject UIPan;
+
+    [SerializeField] private GameObject UIFullMovieCard;
 
     [SerializeField] private GameObject VideoPlayerController;
 
@@ -74,14 +77,19 @@ public class TopMenuController : MonoBehaviour
 
         btnBackPan.onClick.AddListener(StateWindowBack);
 
-        btnAccept.onClick.AddListener(StateAccept);
+        
 
         btnProfile.onClick.AddListener(profileModel.invokeProfile);
 
         imputSearch.gameObject.SetActive(true);
         btnSearch.gameObject.SetActive(true);
-        btnSearch.onClick.AddListener(SendDataSearch);
 
+        btnSearch.onClick.AddListener(SendDataSearch);
+        btnAccept.onClick.AddListener(StateAccept);
+
+
+        //btnSearch.onClick.AddListener(() => SendDataSearch(cardsControllerModel.pageSize, cardsControllerModel.pageNumber));
+        //btnAccept.onClick.AddListener(() => StateAccept(cardsControllerModel.pageSize, cardsControllerModel.pageNumber));
 
         //btnPanoram.onClick.AddListener(StateWindowUIPanoram);
         btnBack.onClick.AddListener(Back);
@@ -140,14 +148,12 @@ public class TopMenuController : MonoBehaviour
         if (UIProfile.activeSelf)
         {
             ToggleButtons(true);
-            //btnLike.interactable = true;
-            //btnBack.interactable = true;
-            //btnFavourite.interactable = true;
-            //btnWatched.interactable = true;
+            
             imputSearch.gameObject.SetActive(false);
             btnSearch.gameObject.SetActive(false);
             genreDropdown.gameObject.SetActive(false);
             btnAccept.gameObject.SetActive(false);
+            UIFullMovieCard.gameObject.SetActive(false);
         }
         else
         {
@@ -156,10 +162,7 @@ public class TopMenuController : MonoBehaviour
             btnSearch.gameObject.SetActive(true);
             btnAccept.gameObject.SetActive(true);
             ToggleButtons(false);
-            //btnLike.interactable = false;
-            //btnBack.interactable = false;
-            //btnFavourite.interactable = false;
-            //btnWatched.interactable = false;
+          
         }
     }
 
@@ -169,7 +172,7 @@ public class TopMenuController : MonoBehaviour
         {
             return;
         }
-
+        
         if (activeWindow != null)
         {
             activeWindow.SetActive(false);
@@ -181,10 +184,7 @@ public class TopMenuController : MonoBehaviour
             imputSearch.gameObject.SetActive(true);
             btnSearch.gameObject.SetActive(true);
             btnAccept.gameObject.SetActive(true);
-            //btnBack.interactable = false;
-            //btnLike.interactable = false;
-            //btnFavourite.interactable = false;
-            //btnWatched.interactable = false;
+          
             return;
         }
         window.SetActive(true);

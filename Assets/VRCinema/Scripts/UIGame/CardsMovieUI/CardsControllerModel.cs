@@ -8,10 +8,13 @@ using System;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 using System.Linq;
-using UnityEditor.Search;
+//using UnityEditor.Search;
 using System.Drawing.Printing;
 using Google.Protobuf.WellKnownTypes;
 using UnityEngine.UIElements.Experimental;
+using Unity.VisualScripting;
+using UnityEngine.Analytics;
+using static CardControllerPresenter;
 
 public class CardsControllerModel : MonoBehaviour
 {
@@ -23,16 +26,24 @@ public class CardsControllerModel : MonoBehaviour
     public event Action OnInsertWatch;
     public event Action OnInsertToPanoram;
 
+    public event Action OnInsertComment;
+
     public List<MovieCards> MovieList = new();
     public List<MovieCards> LikeList = new();
     public List<MovieCards> FavouritesList = new();
     public List<MovieCards> WatchedList = new();
     public List<MovieCards> ToPanoram = new();
+    public List<MovieCards> CommentsList = new();
+
 
     //public Dropdown genreDropdown;
     public TMP_Dropdown genreDropdown;
 
     private HashSet<string> uniqueTitlesInt = new HashSet<string>();
+
+
+
+
 
     public class Row
     {
@@ -71,41 +82,24 @@ public class CardsControllerModel : MonoBehaviour
 
     public IEnumerator GetMoviesFromServer()
     {
-        UnityWebRequest www = UnityWebRequest.Get("http://localhost:3000/getmovie");
+        UnityWebRequest www = UnityWebRequest.Get($"http://localhost:3000/getmovie");
 
         yield return www.SendWebRequest();
 
         if (www.result == UnityWebRequest.Result.Success)
         {
             string json = www.downloadHandler.text;
-
+            Debug.Log("Полученный JSON: " + json);
             MovieCards[] movies = JsonConvert.DeserializeObject<MovieCards[]>(json);
-            MovieList.Clear();
             foreach (var movie in movies)
             {
-                string movieId = movie.movieId;
-                if (MovieList.Any(existingMovie => existingMovie.movieId == movieId))
+                if (!MovieList.Any(existingMovie => existingMovie.movieId == movie.movieId))
                 {
-                    continue;
+                    MovieList.Add(movie);
                 }
-                string movieTitle = movie.movieTitle;
-                string genre = movie.genre;
-                string movieURL = movie.movieURL;
-                string urlPhotoName = movie.urlPhotoName;
-                string description = movie.discription;
-                string likeId = movie.likeId;
-                string favoriteId = movie.favoriteId;
-                string watchedId = movie.watchedId;
-
-                string release_year = movie.release_year;
-                string duration = movie.duration;
-                string rating = movie.rating;
-
-                MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId);
-               
-                MovieList.Add(movieCard);
             }
             OnInsertAllMovies?.Invoke();
+            
         }
         else
         {
@@ -113,8 +107,9 @@ public class CardsControllerModel : MonoBehaviour
         }
 
         www.Dispose();
-        StopCoroutine(GetMoviesFromServer());
     }
+
+   
 
     public IEnumerator GetGenresFromServer()
     {
@@ -132,11 +127,15 @@ public class CardsControllerModel : MonoBehaviour
 
                 genreDropdown.ClearOptions();
 
+                HashSet<string> uniqueGenres = new HashSet<string>();
                 List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
 
                 foreach (GenreData genreData in genreDataArray)
                 {
-                    dropdownOptions.Add(new TMP_Dropdown.OptionData(genreData.namegGenres)); 
+                    if (uniqueGenres.Add(genreData.namegGenres)) 
+                    {
+                        dropdownOptions.Add(new TMP_Dropdown.OptionData(genreData.namegGenres));
+                    }
                 }
 
                 genreDropdown.AddOptions(dropdownOptions);
@@ -185,13 +184,18 @@ public class CardsControllerModel : MonoBehaviour
                 string likeId = movie.likeId;
                 string favoriteId = movie.favoriteId;
                 string watchedId = movie.watchedId;
-
-
+                string created_at = movie.created_at;
+                string comment_id = movie.comment_id;
+                string discription = movie.discription;
+                string userId = movie.userId;
+                string username = movie.username;
+                string comment = movie.comment;
                 string release_year = movie.release_year;
                 string duration = movie.duration;
                 string rating = movie.rating;
+                string userPhoto = movie.userPhoto;
 
-                MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId);
+                MovieCards movieCard = new MovieCards(movieTitle, userId, watchedId, favoriteId, release_year, duration, rating, genre, discription, urlPhotoName, movieURL, movieId, likeId, comment_id, username, comment, created_at, userPhoto);
 
                 MovieList.Add(movieCard);
             }
@@ -235,25 +239,7 @@ public class CardsControllerModel : MonoBehaviour
         }
     }
 
-    public static IEnumerator LoadImageFromURL(string url, Image image)
-    {
-        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                Texture2D texture = DownloadHandlerTexture.GetContent(www);
-
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
-                image.sprite = sprite;
-            }
-            else
-            {
-                Debug.LogError("Ошибка загрузки изображения: " + www.error);
-            }
-        }
-    }
+   
 
     public void invokeLikesCards()
     {
@@ -288,6 +274,8 @@ public class CardsControllerModel : MonoBehaviour
         foreach (var movie in movies)
         {
             string movieId = movie.movieId;
+            
+            string movieid = movie.movieId;
             if (LikeList.Any(existingMovie => existingMovie.movieId == movieId))
             {
                 continue;
@@ -297,19 +285,25 @@ public class CardsControllerModel : MonoBehaviour
             string movieURL = movie.movieURL;
             string urlPhotoName = movie.urlPhotoName;
             string description = movie.discription;
-            string userId = UserInfo.user_id;
             string likeId = movie.likeId;
             string favoriteId = movie.favoriteId;
             string watchedId = movie.watchedId;
+            string created_at = movie.created_at;
+            string comment_id = movie.comment_id;
+            string discription = movie.discription;
+            string userId = movie.userId;
+            string username = movie.username;
+            string comment = movie.comment;
             string release_year = movie.release_year;
             string duration = movie.duration;
             string rating = movie.rating;
+            string userPhoto = movie.userPhoto;
+
+            MovieCards movieCard = new MovieCards(movieTitle, userId, watchedId, favoriteId, release_year, duration, rating, genre, discription, urlPhotoName, movieURL, movieId, likeId, comment_id, username, comment, created_at, userPhoto);
 
             Debug.Log($"Title: {movieTitle}, Genre: {genre}, URL: {movieURL}, Photo: {urlPhotoName}, Description: {description}, ID: {movieId}");
             
             
-
-            MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId);
 
             LikeList.Add(movieCard);
         }
@@ -347,29 +341,33 @@ public class CardsControllerModel : MonoBehaviour
 
         foreach (var movie in movies)
         {
-            string movieId = movie.movieId;
-            if (FavouritesList.Any(existingMovie => existingMovie.movieId == movieId))
+            string movieid = movie.movieId;
+            if (FavouritesList.Any(existingMovie => existingMovie.movieId == movieid))
             {
                 continue;
             }
+            string userId = UserInfo.user_id;
             string movieTitle = movie.movieTitle;
             string genre = movie.genre;
             string movieURL = movie.movieURL;
             string urlPhotoName = movie.urlPhotoName;
             string description = movie.discription;
-            string userId = UserInfo.user_id;
             string likeId = movie.likeId;
             string favoriteId = movie.favoriteId;
             string watchedId = movie.watchedId;
-
-
+            string created_at = movie.created_at;
+            string comment_id = movie.comment_id;
+            string discription = movie.discription;
+            string username = movie.username;
+            string comment = movie.comment;
             string release_year = movie.release_year;
             string duration = movie.duration;
             string rating = movie.rating;
+            string userPhoto = movie.userPhoto;
 
-            MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId);
+            MovieCards movieCard = new MovieCards(movieTitle, userId, watchedId, favoriteId, release_year, duration, rating, genre, discription, urlPhotoName, movieURL, movieid, likeId, comment_id, username, comment, created_at, userPhoto);
 
-            Debug.Log($"Title: {movieTitle}, Genre: {genre}, URL: {movieURL}, Photo: {urlPhotoName}, Description: {description}, ID: {movieId}");
+            Debug.Log($"Title: {movieTitle}, Genre: {genre}, URL: {movieURL}, Photo: {urlPhotoName}, Description: {description}, ID: {movieid}");
 
             FavouritesList.Add(movieCard);
         }
@@ -426,8 +424,12 @@ public class CardsControllerModel : MonoBehaviour
             string duration = movie.duration;
             string rating = movie.rating;
 
-            
-            MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId);
+            string username = movie.username;
+            string userPhoto = movie.userPhoto;
+            string comment = movie.comment;
+            string created_at = movie.created_at;
+            string comment_id = movie.comment_id;
+            MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieId, likeId, comment_id, username, comment, created_at, userPhoto);
            
             WatchedList.Add(movieCard);
             Debug.Log(movieCard);
@@ -516,7 +518,13 @@ public class CardsControllerModel : MonoBehaviour
                     string duration = movie.duration;
                     string rating = movie.rating;
 
-                    MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieid, likeId);
+                    string username = movie.username;
+                    string userPhoto = movie.userPhoto;
+                    string comment = movie.comment;
+                    string created_at = movie.created_at;
+                    string comment_id = movie.comment_id;
+                    MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieid, likeId, comment_id, username, comment, created_at, userPhoto);
+
                     ToPanoram.Add(movieCard);
                 }
                 OnInsertToPanoram?.Invoke();
@@ -527,6 +535,95 @@ public class CardsControllerModel : MonoBehaviour
             }
         }
     }
+
+
+
+
+
+    ////sad////
+
+    public void GetCommentMovieForPanoram(MovieCards movie)
+    {
+        StartCoroutine(GetCommentForPanoramFromServer(Convert.ToInt32(movie.movieId)));
+    }
+
+    public IEnumerator GetCommentForPanoramFromServer(int movieId)
+    {
+        string url = "http://localhost:3000/commentsmovie?movie_id=" + movieId;
+        string moviead = Convert.ToString(movieId);
+
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                string json = www.downloadHandler.text;
+
+                MovieCards[] movies = JsonConvert.DeserializeObject<MovieCards[]>(json);
+                CommentsList.Clear();
+                foreach (var movie in movies)
+                {
+                    string movieid = movie.movieId;
+                    if (CommentsList.Any(existingMovie => existingMovie.movieId == moviead))
+                    {
+                        continue;
+                    }
+
+                    string movieTitle = movie.movieTitle;
+                    string genre = movie.genre;
+                    string movieURL = movie.movieURL;
+                    string urlPhotoName = movie.urlPhotoName;
+                    string description = movie.discription;
+                    string likeId = movie.likeId;
+                    string favoriteId = movie.favoriteId;
+                    string watchedId = movie.watchedId;
+                    string release_year = movie.release_year;
+                    string duration = movie.duration;
+                    string rating = movie.rating;
+                    string username = movie.username;
+                    string userPhoto = movie.userPhoto;
+                    string comment = movie.comment;
+                    string created_at = movie.created_at;
+                    string comment_id = movie.comment_id;
+                    MovieCards movieCard = new MovieCards(movieTitle, likeId, watchedId, favoriteId, release_year, duration, rating, genre, description, urlPhotoName, movieURL, movieid, likeId, comment_id, username, comment, created_at, userPhoto);
+
+                    CommentsList.Add(movieCard);
+                }
+            OnInsertComment?.Invoke();
+
+            }
+            else
+            {
+                Debug.LogError("Ошибка получения данных фильма " + www.error);
+            }
+        }
+    }
+
+
+    public IEnumerator AddComment(int movieId, string comment)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("movieId", movieId.ToString());
+        form.AddField("userId", UserInfo.user_id.ToString());
+        form.AddField("comment", comment);
+
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost:3000/addcomment", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Комментарий добавлен.");
+            }
+            else
+            {
+                Debug.LogError(www.error);
+            }
+        }
+    }
+
+
 
     public void AddToFavorites(MovieCards movie)
     {
@@ -681,6 +778,62 @@ public class CardsControllerModel : MonoBehaviour
         }
         StopCoroutine(DeleteWatchOnServer(movie));
     }
+
+
+
+
+    public static IEnumerator LoadImageFromURL(string url, Image image)
+    {
+        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(www);
+
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+                image.sprite = sprite;
+            }
+            else
+            {
+                Debug.LogError("Ошибка загрузки пользователя изображения: " + www.error);
+            }
+        }
+    }
+    //public static IEnumerator LoadImageFromURL(string url, Image image)
+    //{
+    //    using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(url))
+    //    {
+    //        yield return www.SendWebRequest();
+
+    //        if (www.result == UnityWebRequest.Result.Success)
+    //        {
+    //            Texture2D texture = DownloadHandlerTexture.GetContent(www);
+
+    //            Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+    //            image.sprite = sprite;
+    //        }
+    //        else
+    //        {
+    //            Debug.LogError("Ошибка загрузки пользователя изображения: " + www.error);
+    //        }
+    //    }
+    //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void PlayMovie(MovieCards movie)
     {

@@ -47,6 +47,9 @@ public class AuthPresenter : MonoBehaviour
     [SerializeField] private TMP_InputField UrlMovieInput;
     [SerializeField] private TMP_InputField UrlPhotoInput;
     [SerializeField] private TMP_InputField MovieDiscriptionInput;
+    [SerializeField] private TMP_InputField rating;
+    [SerializeField] private TMP_InputField duration;
+    [SerializeField] private TMP_InputField releaseYear;
 
     [SerializeField] private Button MovieAddButton;
 
@@ -97,23 +100,33 @@ public class AuthPresenter : MonoBehaviour
         string nickname = regInputNickName.text.Trim();
         authModel.RegUser(login, password, nickname);
     }
- 
+
     public void SendDataNewMovie()
     {
+        if (NameMovieInput == null || GenreInput == null || UrlMovieInput == null ||
+            UrlPhotoInput == null || MovieDiscriptionInput == null || rating == null ||
+            duration == null || releaseYear == null)
+        {
+            Debug.LogError("One or more input fields are not assigned.");
+            return;
+        }
+
         string namemovie = NameMovieInput.text.Trim();
         string genre = GenreInput.text.Trim();
         string urlMovie = UrlMovieInput.text.Trim();
         string photoUrlMovie = UrlPhotoInput.text.Trim();
         string discription = MovieDiscriptionInput.text.Trim();
-        authModel.AddMovie(namemovie, genre, urlMovie, photoUrlMovie, discription);
+        string movieRating = rating.text.Trim();
+        string movieDuration = duration.text.Trim();
+        string releaseyear = releaseYear.text.Trim();
+
+        if (authModel == null)
+        {
+            Debug.LogError("authModel is not assigned.");
+            return;
+        }
+
+        authModel.AddMovie(namemovie, genre, urlMovie, photoUrlMovie, discription, movieRating, movieDuration, releaseyear);
     }
 
-
-    //public void SendDataNewMovieLike()
-    //{
-    //    string namemovie = NameMovieInput.text.Trim();
-    //    //string photoUrlMovie = UrlPhotoInput.text.Trim();
-
-    //    cardsControllerModel.LoadingCardsLikes();
-    //}
 }
