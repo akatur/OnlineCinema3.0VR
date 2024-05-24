@@ -91,10 +91,6 @@ public class CardControllerPresenter : MonoBehaviour
         cardsControllerModel.OnInsertToPanoram += InstCardsToPanoram;
         cardsControllerModel.OnInsertComment += LoadingComment;
 
-        //cardsControllerModel.OnButtonToAddCommentClick += AddComments;
-
-        //cardsControllerModel.OnInsertComment += SelectCommentCard;
-
         btnNextPage.onClick.AddListener(LoadNextPage);
         btnBackPage.onClick.AddListener(LoadPreviousPage);
 
@@ -159,7 +155,7 @@ public class CardControllerPresenter : MonoBehaviour
     }
 
 
-    //Comment
+    
     public void LoadingComment()
     {
         foreach (var item in cardListCommentMovies)
@@ -177,8 +173,6 @@ public class CardControllerPresenter : MonoBehaviour
             MovieCardPresenter movieCard = Instantiate(cardComment, Vector3.zero, Quaternion.identity, UIScrollComment).GetComponent<MovieCardPresenter>();
             movieCard.Init(item);
             cardListCommentMovies.Add(movieCard);
-
-            //commentPresenter.OnButtonSendMessage += SelectCommentCard;
         }
         UpdateNavigationButtonsComment();
     }
@@ -204,13 +198,18 @@ public class CardControllerPresenter : MonoBehaviour
         toNextPageComment.SetActive((currentPageMovieComment + 1) * CardsMoviePerPageComment < cardsControllerModel.CommentsList.Count);
         toBackPageComment.SetActive(currentPageMovieComment > 0);
     }
+    public void SetMovieId(string id)
+    {
+        movdd = id;
+    }
+    private void AddComments()
+    {
+        string comment = InputComment.text.Trim();
+        string movieId = movdd;
+        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movieId), comment));
+    }
 
-    ///Comment
-    
-    
 
-    
-    //public static string movId;
     private void SelectCommentCard(MovieCardPresenter movieCardPresenter)
     {
         cardsControllerModel.GetCommentMovieForPanoram(movieCardPresenter.movie);
@@ -227,11 +226,7 @@ public class CardControllerPresenter : MonoBehaviour
         }
     }
 
-    public void SetMovieId(string id)
-    {
-        movdd = id;
-    }
-
+   
     private void SelectPanoram(MovieCardPresenter movieCardPresenter)
     {
         cardsControllerModel.GetMovieForPanoram(movieCardPresenter.movie);
@@ -239,17 +234,7 @@ public class CardControllerPresenter : MonoBehaviour
         UIfill.SetActive(true);
     }
 
-    private void AddComments()
-    {
-        string comment = InputComment.text.Trim();
-        string movieId = movdd;
-
-
-        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movieId), comment));
-
-        
-    }
-
+    
 
     private void InstCardsLikes()
     {
