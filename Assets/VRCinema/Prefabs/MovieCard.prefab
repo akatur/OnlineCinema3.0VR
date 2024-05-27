@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 553342904924701877}
   - component: {fileID: 8531776582465500053}
   - component: {fileID: 3566843818017790668}
+  - component: {fileID: 3088738748124222596}
   m_Layer: 5
   m_Name: MovieCard
   m_TagString: Untagged
@@ -791,6 +792,16 @@ MonoBehaviour:
   movieDiscription: {fileID: 0}
   PosterMovie: {fileID: 3835754348143973084}
   urlPhotoName: 
+  nickNames: {fileID: 0}
+  nickName: {fileID: 0}
+  movie_id: {fileID: 0}
+  comment: {fileID: 0}
+  created_at: {fileID: 0}
+  InputComment: {fileID: 0}
+  btnSendMessage: {fileID: 0}
+  cardsControllerModel: {fileID: 0}
+  userPhoto: 
+  PhotoUser: {fileID: 0}
   movie:
     movieTitle: 
     urlPhotoName: 
@@ -805,6 +816,24 @@ MonoBehaviour:
     rating: 
     duration: 
     release_year: 
+    comment_id: 
+    username: 
+    comment: 
+    created_at: 
+    userPhoto: 
+--- !u!114 &3088738748124222596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127814488415738100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b391c0cf470fef47a90048cfa6c00bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleZ: 0.001
 --- !u!1 &9137216591905229542
 GameObject:
   m_ObjectHideFlags: 0

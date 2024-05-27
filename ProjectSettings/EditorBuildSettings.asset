@@ -13,6 +13,8 @@ EditorBuildSettings:
       - Built-in Render Pipeline/Scenes/WebXRInteractionToolkit.unity
     guid: eb8ec87ae52c23d47afd4c28c6e4801a
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3c13e7815e80872468cb3716029b27db, type: 2}
     WebXR.Settings: {fileID: 11400000, guid: 0e28e234ca479dd4ca9c0600178a2bac, type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 81db0162a745c574a8d1c54907e07320, type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: d68989a02e4c59d43b733667c91f0f03, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: de69c9fe004dd18479c1591da2affadc, type: 2}

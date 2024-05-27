@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
 using static CardControllerPresenter;
 
 public class CardControllerPresenter : MonoBehaviour
@@ -29,17 +30,17 @@ public class CardControllerPresenter : MonoBehaviour
     [SerializeField] private GameObject toNextPageComment;
     [SerializeField] private GameObject toBackPageComment;
 
-    [SerializeField] private Button btnNextPageComment;
-    [SerializeField] private Button btnBackPageComment;
+    [SerializeField] private UnityEngine.UI.Button btnNextPageComment;
+    [SerializeField] private UnityEngine.UI.Button btnBackPageComment;
 
     //
     [SerializeField] private GameObject toNextPage;
     [SerializeField] private GameObject toBackPage;
 
-    [SerializeField] private Button btnNextPage;
-    [SerializeField] private Button btnBackPage;
+    [SerializeField] private UnityEngine.UI.Button btnNextPage;
+    [SerializeField] private UnityEngine.UI.Button btnBackPage;
 
-    [SerializeField] private Button btnLikes;
+    [SerializeField] private UnityEngine.UI.Button btnLikes;
 
     [SerializeField] private GameObject[] btnGen;
 
@@ -65,7 +66,7 @@ public class CardControllerPresenter : MonoBehaviour
     [SerializeField] private Transform PanelCardsWatched;
 
     [SerializeField] private TMP_InputField InputComment;
-    [SerializeField] private Button btnSendMessage;
+    [SerializeField] private UnityEngine.UI.Button btnSendMessage;
     public const int CardsMoviePerPage = 9;
     public int currentPageMovie = 0;
 
@@ -102,6 +103,8 @@ public class CardControllerPresenter : MonoBehaviour
     }
 
 
+    public float scaleZ = 0.001f; // Определите это как поле в вашем классе
+
     public void LoadingCards()
     {
         foreach (var item in cardListMovies)
@@ -116,7 +119,12 @@ public class CardControllerPresenter : MonoBehaviour
         for (int i = startIndex; i < endIndex; i++)
         {
             var item = cardsControllerModel.MovieList[i];
-            MovieCardPresenter movieCard = Instantiate(btnCard, Vector3.zero, Quaternion.identity, PanelCards).GetComponent<MovieCardPresenter>();
+            Vector3 position = new Vector3(0, 0, 0);
+            MovieCardPresenter movieCard = Instantiate(btnCard, position, Quaternion.identity, PanelCards).GetComponent<MovieCardPresenter>();
+
+            ScaleOnStart scaleOnStart = movieCard.gameObject.AddComponent<ScaleOnStart>();
+            scaleOnStart.scaleZ = scaleZ;
+
             movieCard.Init(item);
             cardListMovies.Add(movieCard);
             movieCard.OnButtonFavorClick += AddToFavorites;
@@ -125,11 +133,10 @@ public class CardControllerPresenter : MonoBehaviour
             movieCard.OnButtonWatchClick += PlayMovies;
             movieCard.OnButtonToPanoramClick += SelectPanoram;
             movieCard.OnButtonToCommentClick += SelectCommentCard;
-            
-
         }
         UpdateNavigationButtons();
     }
+
     public void LoadNextPage()
     {
         if ((currentPageMovie + 1) * CardsMoviePerPage < cardsControllerModel.MovieList.Count)
