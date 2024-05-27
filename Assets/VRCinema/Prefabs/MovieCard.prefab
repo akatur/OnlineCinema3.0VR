@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 553342904924701877}
   - component: {fileID: 8531776582465500053}
   - component: {fileID: 3566843818017790668}
+  - component: {fileID: 3088738748124222596}
   m_Layer: 5
   m_Name: MovieCard
   m_TagString: Untagged
@@ -707,7 +708,7 @@ RectTransform:
   m_GameObject: {fileID: 9127814488415738100}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 912056030493718962}
@@ -820,6 +821,19 @@ MonoBehaviour:
     comment: 
     created_at: 
     userPhoto: 
+--- !u!114 &3088738748124222596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127814488415738100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b391c0cf470fef47a90048cfa6c00bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleZ: 0.001
 --- !u!1 &9137216591905229542
 GameObject:
   m_ObjectHideFlags: 0

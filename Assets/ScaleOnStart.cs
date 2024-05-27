@@ -11,5 +11,7 @@ public class ScaleOnStart : MonoBehaviour
         Vector3 newScale = transform.localScale;
         newScale.z = scaleZ;
         transform.localScale = newScale;
+
+       
     }
 }
