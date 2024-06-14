@@ -118,7 +118,7 @@ public class MenuUiControll : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightShift))
         {
-            if (UserInfo.currentLogin == "admin")
+            if (UserInfo.role_id == "2")
             {
                 isOpenedTwo = !isOpenedTwo;
                 if (isOpenedTwo)

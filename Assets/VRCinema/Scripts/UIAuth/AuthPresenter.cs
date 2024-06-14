@@ -11,37 +11,26 @@ public class AuthPresenter : MonoBehaviour
 
 
     [SerializeField] private Button btnLogin;
-
     [SerializeField] private Button btnReg;
-
-
     [SerializeField] private GameObject UILogin;
-
     [SerializeField] private GameObject UIRegistration;
 
     //LoginImputs
     [SerializeField] private TMP_InputField logInputLogin;
-
     [SerializeField] private TMP_InputField logInputPsw;
 
     //RegistrationImputs
     [SerializeField] private TMP_InputField regInputNickName;
-   
-
     [SerializeField] private TMP_InputField regInputLogin;
-
     [SerializeField] private TMP_InputField regInputPsw;
 
 
     [SerializeField] private Button LOGUserButton;
-
     [SerializeField] private Button REGUserButton;
-
     [SerializeField] private UnityEvent events;
 
 
     //AddMovieInput
-
     [SerializeField] private TMP_InputField NameMovieInput;
     [SerializeField] private TMP_InputField GenreInput;
     [SerializeField] private TMP_InputField UrlMovieInput;
@@ -107,7 +96,7 @@ public class AuthPresenter : MonoBehaviour
             UrlPhotoInput == null || MovieDiscriptionInput == null || rating == null ||
             duration == null || releaseYear == null)
         {
-            Debug.LogError("One or more input fields are not assigned.");
+            Debug.LogError("Одно или несколько полей ввода не назначены..");
             return;
         }
 
@@ -128,5 +117,4 @@ public class AuthPresenter : MonoBehaviour
 
         authModel.AddMovie(namemovie, genre, urlMovie, photoUrlMovie, discription, movieRating, movieDuration, releaseyear);
     }
-
 }

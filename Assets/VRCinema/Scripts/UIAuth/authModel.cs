@@ -20,6 +20,8 @@ public static class UserInfo
     public static string currentName;
     public static string currentLogin;
     public static string user_id;
+    public static string role_id;
+    public static string role_name;
     public static string currentPassword;
 }
 
@@ -28,6 +30,8 @@ public static class UserInfo
 public class ResponseData
 {
     public int user_id;
+    public int role_id;
+    public string role_name;
 
 }
 
@@ -133,9 +137,13 @@ public class authModel : MonoBehaviour
                 if (response.Contains("user_id"))
                 {
                     var responseData = JsonUtility.FromJson<ResponseData>(response);
-
                     UserInfo.currentLogin = login;
                     UserInfo.user_id = responseData.user_id.ToString();
+                    UserInfo.role_id = responseData.role_id.ToString();
+                    UserInfo.role_name = responseData.role_name;
+
+                    Debug.Log(UserInfo.role_id);
+                    Debug.Log(UserInfo.role_name);
 
                     UIAuth.SetActive(false);
                     UIGame.SetActive(true);
@@ -209,6 +217,7 @@ public class authModel : MonoBehaviour
                 if (responseData != null && responseData.user_id > 0)
                 {
                     UserInfo.user_id = responseData.user_id.ToString();
+                    UserInfo.role_id = responseData.role_id.ToString();
 
                     UIAuth.SetActive(false);
                     UIGame.SetActive(true);
