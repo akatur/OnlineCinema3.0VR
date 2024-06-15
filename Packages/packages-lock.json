@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.de-panther.webxr": {
-      "version": "0.21.0",
+      "version": "0.22.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -19,11 +19,12 @@
       "url": "https://package.openupm.com"
     },
     "com.unity.burst": {
-      "version": "1.8.7",
+      "version": "1.8.16",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.unity.mathematics": "1.2.1"
+        "com.unity.mathematics": "1.2.1",
+        "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -281,8 +282,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.management": {
-      "version": "4.3.3",
-      "depth": 1,
+      "version": "4.3.1",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.subsystems": "1.0.0",
