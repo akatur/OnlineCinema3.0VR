@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.de-panther.webxr": {
-      "version": "0.22.0",
+      "version": "0.21.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -10,11 +10,11 @@
       "url": "https://package.openupm.com"
     },
     "com.de-panther.webxr-interactions": {
-      "version": "0.22.0",
+      "version": "0.21.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
-        "com.de-panther.webxr": "0.22.0"
+        "com.de-panther.webxr": "0.21.0"
       },
       "url": "https://package.openupm.com"
     },
@@ -98,8 +98,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.inputsystem": {
-      "version": "1.7.0",
-      "depth": 1,
+      "version": "1.8.2",
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0"
@@ -216,7 +216,7 @@
     },
     "com.unity.ugui": {
       "version": "1.0.0",
-      "depth": 0,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
@@ -234,7 +234,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.core-utils": {
-      "version": "2.2.3",
+      "version": "2.3.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -281,25 +281,14 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.management": {
-      "version": "4.4.1",
-      "depth": 0,
+      "version": "4.3.3",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.subsystems": "1.0.0",
         "com.unity.modules.vr": "1.0.0",
         "com.unity.modules.xr": "1.0.0",
         "com.unity.xr.legacyinputhelpers": "2.1.7"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.xr.openxr": {
-      "version": "1.6.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.xr.management": "4.0.1",
-        "com.unity.xr.legacyinputhelpers": "2.1.2",
-        "com.unity.inputsystem": "1.4.4"
       },
       "url": "https://packages.unity.com"
     },
