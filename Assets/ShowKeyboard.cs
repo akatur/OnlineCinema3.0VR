@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Microsoft.MixedReality.Toolkit.Experimental.UI;
-using static Unity.Burst.Intrinsics.Arm;
-using static Unity.VisualScripting.Member;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
+
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 

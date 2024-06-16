@@ -1479,6 +1479,8 @@ GameObject:
   - component: {fileID: 553342904924701877}
   - component: {fileID: 8531776582465500053}
   - component: {fileID: 3566843818017790668}
+  - component: {fileID: 1519739400433938823}
+  - component: {fileID: 2175992304057139304}
   m_Layer: 5
   m_Name: CommentMovieCard
   m_TagString: Untagged
@@ -1533,7 +1535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0.5686275, b: 0.9339623, a: 1}
+  m_Color: {r: 0, g: 0.5686275, b: 0.9339623, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1580,10 +1582,12 @@ MonoBehaviour:
   urlPhotoName: 
   nickNames: {fileID: 5627158598292565114}
   nickName: {fileID: 6155468678525095303}
+  movie_id: {fileID: 0}
   comment: {fileID: 8401843360369435353}
   created_at: {fileID: 4102486818808483520}
   InputComment: {fileID: 8401843360369435353}
   btnSendMessage: {fileID: 0}
+  cardsControllerModel: {fileID: 0}
   userPhoto: 
   PhotoUser: {fileID: 3835754348143973084}
   movie:
@@ -1605,3 +1609,35 @@ MonoBehaviour:
     comment: 
     created_at: 
     userPhoto: 
+--- !u!114 &1519739400433938823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127814488415738100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: 40
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
+--- !u!114 &2175992304057139304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9127814488415738100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caf8ba3b1feb3944ab116cb29cbebc4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
