@@ -60,7 +60,12 @@ public class MovieCardPresenter : MonoBehaviour
     {
         cardsControllerModel = new CardsControllerModel();
 
-        
+
+        if (btnSendMessage != null)
+        {
+            btnSendMessage.onClick.AddListener(ButtonAddCommentClick);
+        }
+
         if (btnToPanoramCard != null)
         {
             btnToPanoramCard.onClick.AddListener(ButtonToPanoramClick);
@@ -148,10 +153,10 @@ public class MovieCardPresenter : MonoBehaviour
     public void ButtonAddCommentClick()
     {
         OnButtonToAddCommentClick?.Invoke(this);
-        
-        //string comment = InputComment.text.Trim();
-        ////cardsControllerModel.AddToComment(  comment);
-        //StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment));
+
+        string comment = InputComment.text.Trim();
+        //cardsControllerModel.AddToComment(comment);
+        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment));
     }
 
 

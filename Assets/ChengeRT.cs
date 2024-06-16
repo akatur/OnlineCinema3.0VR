@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class ChengeRT : MonoBehaviour
 {
-    
+
+    public float pozZ = 1.2f;
+    //public float pozy = 1.2f;
+
+
         void Update()
         {
             SetScaleZToZero(transform);
@@ -15,7 +19,8 @@ public class ChengeRT : MonoBehaviour
         if (parentTransform != null)
         {
             Vector3 newPosition = parentTransform.localPosition;
-            newPosition.z = 0f;
+            newPosition.z = pozZ;
+            //newPosition.y = pozy;
             parentTransform.localPosition = newPosition;
         }
 

@@ -12,8 +12,8 @@ public class ShowKeyboard : MonoBehaviour
     private TMP_InputField InputField;
 
 
-    public float distance = 0.5f;
-    public float verticaloffset = -0.5f;
+    public float distance = 0.1f;
+    public float verticaloffset = -1f;
 
     public Transform positionSource;
 
