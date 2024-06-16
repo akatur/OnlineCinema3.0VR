@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 using System.Text.RegularExpressions;
 using Google.Protobuf.WellKnownTypes;
 using UnityEngine.UIElements.Experimental;
+using UnityEngine.Analytics;
 
 public static class ConnectionInfo
 {
@@ -168,6 +169,54 @@ public class authModel : MonoBehaviour
     }
 
 
+
+     public void ChangeDataProfiles(string utlPhoto, string inputFieldName, string inputFieldCity, string inputFieldLogin)
+    {
+        if (utlPhoto == "" || inputFieldName == "" || inputFieldCity == "" || inputFieldLogin == "")
+        {
+            Debug.Log("Введите данные");
+        }
+        else
+        {
+        StartCoroutine(ChangeDataProfilesCor(utlPhoto, inputFieldName, inputFieldCity, inputFieldLogin));
+        }
+    }
+
+    public IEnumerator ChangeDataProfilesCor(string utlPhoto, string inputFieldName, string inputFieldCity, string inputFieldLogin)
+    {
+        Debug.Log("sd");
+        string userId = UserInfo.user_id;
+
+        string url = $"http://localhost:3000/changedataprofile?user_id={userId}";
+        WWWForm form = new WWWForm();
+        form.AddField("user_photo", utlPhoto);
+        form.AddField("username", inputFieldName);
+        form.AddField("city", inputFieldCity);
+        form.AddField("login", inputFieldLogin);
+        //form.AddField("user_id", UserInfo.user_id.ToString()); 
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                string response = www.downloadHandler.text;
+                if (response.Contains("Success"))
+                {
+                    Debug.Log("Успешно изменено");
+                }
+                else
+                {
+                    Debug.Log("Ошибка: " + response);
+                }
+            }
+            else
+            {
+                Debug.Log("Ошибка во время запроса: " + www.error);
+            }
+        }
+    }
 
     public void RegUser(string login, string password, string nickname)
     {

@@ -97,7 +97,6 @@ public class MovieCardPresenter : MonoBehaviour
 
     public void Init(MovieCards movie)
     {
-
         if (nickName != null)
         {
             nickName.text = movie.username;
@@ -145,31 +144,22 @@ public class MovieCardPresenter : MonoBehaviour
 
         this.movie = movie;
         StartCoroutine(CardsControllerModel.LoadImageFromURL(urlPhotoName, PosterMovie));
-        //StartCoroutine(CardsControllerModel.LoadIUsermageFromURL(userPhoto, PhotoUser));
     }
     public void ButtonAddCommentClick()
     {
-
         OnButtonToAddCommentClick?.Invoke(this);
-
-
-
-
-
+        
         //string comment = InputComment.text.Trim();
         ////cardsControllerModel.AddToComment(  comment);
         //StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment));
     }
 
 
-
     public void ButtonToDeletePanoramClick()
     {
-        gameObject.SetActive(false);
+        Debug.Log("delwin");
+        this.gameObject.SetActive(false);
     }
-
-    
-
 
     public void ButtonToPanoramClick()
     {

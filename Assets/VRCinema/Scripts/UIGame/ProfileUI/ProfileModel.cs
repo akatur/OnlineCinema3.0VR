@@ -19,6 +19,9 @@ public class ProfileModel : MonoBehaviour
 
     public event Action OnInsertProfile;
 
+
+    
+
     public void invokeProfile()
     {
         string userId = UserInfo.user_id;
@@ -67,6 +70,58 @@ public class ProfileModel : MonoBehaviour
             ProfileList.Add(prof);
         }
         OnInsertProfile?.Invoke();
+    }
+
+
+    public void ChangeDataProfiles(string utlPhoto, string inputFieldName, string inputFieldCity, string inputFieldLogin)
+    {
+        if (utlPhoto == "" || inputFieldName == "" || inputFieldCity == "" || inputFieldLogin == "")
+        {
+            Debug.Log("Введите данные");
+        }
+        else
+        {
+            StartCoroutine(ChangeDataProfilesCor(utlPhoto, inputFieldName, inputFieldCity, inputFieldLogin)); // Start coroutine if all fields are filled
+        }
+    }
+
+    public IEnumerator ChangeDataProfilesCor(string utlPhoto, string inputFieldName, string inputFieldCity, string inputFieldLogin)
+    {
+        
+        string userId = UserInfo.user_id;
+        Debug.Log(userId);
+
+
+        string url = $"http://localhost:3000/changedataprofile?user_id={userId}";
+        WWWForm form = new WWWForm();
+
+        form.AddField("user_id", userId);
+        form.AddField("user_photo", utlPhoto);
+        form.AddField("username", inputFieldName);
+        form.AddField("city", inputFieldCity);
+        form.AddField("login", inputFieldLogin);
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url, form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                string response = www.downloadHandler.text;
+                if (response.Contains("Success"))
+                {
+                    Debug.Log("Успешно изменено");
+                }
+                else
+                {
+                    Debug.Log("Ошибка: " + response);
+                }
+            }
+            else
+            {
+                Debug.Log("Ошибка во время запроса: " + www.error);
+            }
+        }
     }
 
     public static IEnumerator LoadImageFromURL(string url, Image image)

@@ -30,6 +30,11 @@ public class AuthPresenter : MonoBehaviour
     [SerializeField] private UnityEvent events;
 
 
+    [SerializeField] private Toggle toggle;
+    [SerializeField] private Toggle togglereg;
+
+    
+
     //AddMovieInput
     [SerializeField] private TMP_InputField NameMovieInput;
     [SerializeField] private TMP_InputField GenreInput;
@@ -50,6 +55,9 @@ public class AuthPresenter : MonoBehaviour
 
     private void Awake()
     {
+        toggle.onValueChanged.AddListener(ChangePasswordVisibility);
+        togglereg.onValueChanged.AddListener(ChangePasswordVisibilityreg);
+
         btnLogin.onClick.AddListener(Authorization);
         btnReg.onClick.AddListener(Registation);
         LOGUserButton.onClick.AddListener(SendDataAuth);
@@ -109,12 +117,34 @@ public class AuthPresenter : MonoBehaviour
         string movieDuration = duration.text.Trim();
         string releaseyear = releaseYear.text.Trim();
 
-        if (authModel == null)
-        {
-            Debug.LogError("authModel is not assigned.");
-            return;
-        }
 
         authModel.AddMovie(namemovie, genre, urlMovie, photoUrlMovie, discription, movieRating, movieDuration, releaseyear);
     }
+
+    
+    private void ChangePasswordVisibility(bool state)
+    {
+        if (state)
+        {
+            logInputPsw.contentType = TMP_InputField.ContentType.Standard;
+        }
+        else
+        {
+            logInputPsw.contentType = TMP_InputField.ContentType.Password;
+        }
+        logInputPsw.ForceLabelUpdate();
+    }
+    private void ChangePasswordVisibilityreg(bool state)
+    {
+        if (state)
+        {
+            regInputPsw.contentType = TMP_InputField.ContentType.Standard;
+        }
+        else
+        {
+            regInputPsw.contentType = TMP_InputField.ContentType.Password;
+        }
+        regInputPsw.ForceLabelUpdate();
+    }
+
 }
