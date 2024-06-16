@@ -78,6 +78,8 @@ public class CardControllerPresenter : MonoBehaviour
 
     private void Start()
     {
+        windowPanoram.OnButtonToCommentClick += (x) => { LoadingComment(); };
+
         if (btnSendMessage != null)
         {
             btnSendMessage.onClick.AddListener(AddComments);
@@ -103,7 +105,7 @@ public class CardControllerPresenter : MonoBehaviour
     }
 
 
-    public float scaleZ = 0.001f; // Определите это как поле в вашем классе
+    public float scaleZ = 0.001f;
 
     public void LoadingCards()
     {
@@ -161,27 +163,35 @@ public class CardControllerPresenter : MonoBehaviour
         toBackPage.SetActive(currentPageMovie > 0);
     }
 
+    MovieCardPresenter currentMovie;
 
-    
+
     public void LoadingComment()
     {
-        foreach (var item in cardListCommentMovies)
-        {
-            Destroy(item.gameObject);
-        }
-        cardListCommentMovies.Clear();
+        //SelectCommentCard(currentMovie);
 
-        int startIndex = currentPageMovie * CardsMoviePerPageComment;
-        int endIndex = Mathf.Min(startIndex + CardsMoviePerPageComment, cardsControllerModel.CommentsList.Count);
 
-        for (int i = startIndex; i < endIndex; i++)
-        {
-            var item = cardsControllerModel.CommentsList[i];
-            MovieCardPresenter movieCard = Instantiate(cardComment, Vector3.zero, Quaternion.identity, UIScrollComment).GetComponent<MovieCardPresenter>();
-            movieCard.Init(item);
-            cardListCommentMovies.Add(movieCard);
-        }
-        UpdateNavigationButtonsComment();
+        cardsControllerModel.GetCommentMovieForPanoram(currentMovie.movie, ()=> {
+            foreach (var item in cardListCommentMovies)
+            {
+                Destroy(item.gameObject);
+            }
+            cardListCommentMovies.Clear();
+
+            int startIndex = currentPageMovie * CardsMoviePerPageComment;
+            int endIndex = Mathf.Min(startIndex + CardsMoviePerPageComment, cardsControllerModel.CommentsList.Count);
+
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                var item = cardsControllerModel.CommentsList[i];
+                MovieCardPresenter movieCard = Instantiate(cardComment, Vector3.zero, Quaternion.identity, UIScrollComment).GetComponent<MovieCardPresenter>();
+                movieCard.Init(item);
+                cardListCommentMovies.Add(movieCard);
+            }
+
+            UpdateNavigationButtonsComment();
+        } );
+        
     }
 
     public void LoadNextPageComment()
@@ -213,16 +223,17 @@ public class CardControllerPresenter : MonoBehaviour
     {
         string comment = InputComment.text.Trim();
         string movieId = movdd;
-        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movieId), comment));
+        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movieId), comment, LoadingComment));
     }
-
 
     private void SelectCommentCard(MovieCardPresenter movieCardPresenter)
     {
-        cardsControllerModel.GetCommentMovieForPanoram(movieCardPresenter.movie);
+        currentMovie = movieCardPresenter;
+
+        cardsControllerModel.GetCommentMovieForPanoram(movieCardPresenter.movie, LoadingComment);
     }
 
-    private void InstCardsToPanoram()
+    public void InstCardsToPanoram()
     {
         foreach (var item in cardsControllerModel.ToPanoram)
         {

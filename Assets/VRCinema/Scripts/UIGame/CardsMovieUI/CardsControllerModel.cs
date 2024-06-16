@@ -303,8 +303,6 @@ public class CardsControllerModel : MonoBehaviour
 
             Debug.Log($"Title: {movieTitle}, Genre: {genre}, URL: {movieURL}, Photo: {urlPhotoName}, Description: {description}, ID: {movieId}");
             
-            
-
             LikeList.Add(movieCard);
         }
         OnInsertLikes?.Invoke();
@@ -513,11 +511,9 @@ public class CardsControllerModel : MonoBehaviour
                     string likeId = movie.likeId;
                     string favoriteId = movie.favoriteId;
                     string watchedId = movie.watchedId;
-
                     string release_year = movie.release_year;
                     string duration = movie.duration;
                     string rating = movie.rating;
-
                     string username = movie.username;
                     string userPhoto = movie.userPhoto;
                     string comment = movie.comment;
@@ -536,18 +532,14 @@ public class CardsControllerModel : MonoBehaviour
         }
     }
 
-
-
-
-
-    ////sad////
-
-    public void GetCommentMovieForPanoram(MovieCards movie)
+    public void GetCommentMovieForPanoram(MovieCards movie, Action OnSeces)
     {
-        StartCoroutine(GetCommentForPanoramFromServer(Convert.ToInt32(movie.movieId)));
+
+        StartCoroutine(GetCommentForPanoramFromServer(Convert.ToInt32(movie.movieId ),OnSeces));
+
     }
 
-    public IEnumerator GetCommentForPanoramFromServer(int movieId)
+    public IEnumerator GetCommentForPanoramFromServer(int movieId, Action OnSeces)
     {
         string url = "http://localhost:3000/commentsmovie?movie_id=" + movieId;
         string moviead = Convert.ToString(movieId);
@@ -590,7 +582,9 @@ public class CardsControllerModel : MonoBehaviour
 
                     CommentsList.Add(movieCard);
                 }
-            OnInsertComment?.Invoke();
+            //OnInsertComment?.Invoke();
+
+            OnSeces?.Invoke();
 
             }
             else
@@ -601,7 +595,7 @@ public class CardsControllerModel : MonoBehaviour
     }
 
 
-    public IEnumerator AddComment(int movieId, string comment)
+    public IEnumerator AddComment(int movieId, string comment, Action onSocs)
     {
         WWWForm form = new WWWForm();
         form.AddField("movieId", movieId.ToString());
@@ -611,10 +605,11 @@ public class CardsControllerModel : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost:3000/addcomment", form))
         {
             yield return www.SendWebRequest();
-
             if (www.result == UnityWebRequest.Result.Success)
             {
                 Debug.Log("Комментарий добавлен.");
+
+                onSocs?.Invoke();
             }
             else
             {

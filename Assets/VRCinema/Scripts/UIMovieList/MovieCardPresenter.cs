@@ -39,6 +39,7 @@ public class MovieCardPresenter : MonoBehaviour
     [SerializeField] private TMP_InputField InputComment;
     [SerializeField] private Button btnSendMessage;
     [SerializeField] private CardsControllerModel cardsControllerModel;
+    [SerializeField] private CardControllerPresenter cardsControllerPresenter;
     public string userPhoto;
     public Image PhotoUser;
 
@@ -59,12 +60,16 @@ public class MovieCardPresenter : MonoBehaviour
     private void Start()
     {
         cardsControllerModel = new CardsControllerModel();
+        cardsControllerPresenter = new CardControllerPresenter();
 
 
         if (btnSendMessage != null)
         {
             btnSendMessage.onClick.AddListener(ButtonAddCommentClick);
         }
+
+
+        
 
         if (btnToPanoramCard != null)
         {
@@ -153,13 +158,12 @@ public class MovieCardPresenter : MonoBehaviour
     public void ButtonAddCommentClick()
     {
         OnButtonToAddCommentClick?.Invoke(this);
-
         string comment = InputComment.text.Trim();
         //cardsControllerModel.AddToComment(comment);
-        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment));
+        StartCoroutine(cardsControllerModel.AddComment(Convert.ToInt32(movie.movieId), comment, ButtonToPanoramClick));
+        OnButtonToPanoramClick?.Invoke(this);
     }
-
-
+    
     public void ButtonToDeletePanoramClick()
     {
         Debug.Log("delwin");
