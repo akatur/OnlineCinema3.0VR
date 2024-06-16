@@ -623,8 +623,6 @@ public class CardsControllerModel : MonoBehaviour
         }
     }
 
-
-
     public void AddToFavorites(MovieCards movie)
     {
         StartCoroutine(AddFavorite(Convert.ToInt32(movie.movieId), movie.movieTitle));
