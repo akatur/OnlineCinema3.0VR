@@ -40,34 +40,40 @@ public class MenuUiControll : MonoBehaviour
         VideoPlayerController.gameObject.SetActive(false);
     }
 
-    void Update()
+   void Update()
     {
-       
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (UserInfo.user_id != null)
         {
-            isOpenedOne = !isOpenedOne;
-
-            if (isOpenedOne)
+            if (Input.GetKeyDown(KeyCode.Tab))
             {
-                UISrollCards.SetActive(true);
-                TopTable.SetActive(true);
-                movePlayer.sensitivity = 0;
-                Cursor.visible = true;
-                
-            }
-            else
-            {
-                movePlayer.sensitivity = 2;
-                Cursor.visible = false;
-                
+                isOpenedOne = !isOpenedOne;
 
-                UISrollCards.SetActive(false);
-                TopTable.SetActive(false);
-                UIProfile.SetActive(false);
-                UIFav.SetActive(false);
-                UILike.SetActive(false);
-                UIWatch.SetActive(false);
+                if (isOpenedOne)
+                {
+                    UISrollCards.SetActive(true);
+                    TopTable.SetActive(true);
+                    movePlayer.sensitivity = 0;
+                    Cursor.visible = true;
+
+                }
+                else
+                {
+                    movePlayer.sensitivity = 2;
+                    Cursor.visible = false;
+
+
+                    UISrollCards.SetActive(false);
+                    TopTable.SetActive(false);
+                    UIProfile.SetActive(false);
+                    UIFav.SetActive(false);
+                    UILike.SetActive(false);
+                    UIWatch.SetActive(false);
+                }
             }
+        }
+        else
+        {
+            Debug.Log("Продите авторизацию");
         }
 
         //if (Input.GetKeyDown(KeyCode.Escape))

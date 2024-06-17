@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,8 +13,18 @@ public class profileControllerPresenter : MonoBehaviour
     [SerializeField] private List<profilePresenter> cardListProfile = new List<profilePresenter>();
 
     [SerializeField] private ProfileModel profileModel;
+
+
+    [SerializeField] private Button btnWxitFromAuth;
+
     void Start()
     {
+
+        if (btnWxitFromAuth != null)
+        {
+            btnWxitFromAuth.onClick.AddListener(ExtiFromaAcaunt);
+        }
+
         profileModel.OnInsertProfile += LoadingProfile;
     }
 
@@ -32,11 +43,24 @@ public class profileControllerPresenter : MonoBehaviour
             cardListProfile.Add(profile);
             profile.transform.localPosition = Vector3.zero;
 
-            //profile.Add(profile);
-            //profile.OnButtonFavorClick += AddToFavorites;
-            //profile.OnButtonLikeClick += AddToLikes;
-            //profile.OnButtonWatchClick += AddTWatched;
-            //profile.OnButtonWatchClick += PlayMovies;
+            
         }
     }
+
+    private void ExtiFromaAcaunt()
+    {
+        UserInfo.currentLogin = null;
+        UserInfo.role_id = null;
+        UserInfo.user_id = null;
+        UserInfo.currentName = null;
+        UserInfo.currentPassword = null;
+        UserInfo.role_name = null;
+        Debug.Log("Выход из акккаунта успешен");
+
+
+
+    }
+
+
+
 }

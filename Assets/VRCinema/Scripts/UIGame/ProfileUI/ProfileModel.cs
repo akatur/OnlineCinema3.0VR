@@ -81,7 +81,7 @@ public class ProfileModel : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ChangeDataProfilesCor(utlPhoto, inputFieldName, inputFieldCity, inputFieldLogin)); // Start coroutine if all fields are filled
+            StartCoroutine(ChangeDataProfilesCor(utlPhoto, inputFieldName, inputFieldCity, inputFieldLogin)); 
         }
     }
 

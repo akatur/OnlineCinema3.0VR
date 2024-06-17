@@ -48,6 +48,14 @@ public class TopMenuController : MonoBehaviour
 
     CardControllerPresenter cardsControllerPresenter;
 
+
+
+    [SerializeField] private Button btnWxitFromAuth;
+
+    [SerializeField] private GameObject UILogin;
+    [SerializeField] private GameObject UIAuth;
+    [SerializeField] private GameObject UIGame;
+
     private void Awake()
     {
         //btnLike.interactable = false;
@@ -61,7 +69,10 @@ public class TopMenuController : MonoBehaviour
         btnBack.gameObject.SetActive(false);
 
         VideoPlayerController.gameObject.SetActive(false);
-        
+
+
+        btnWxitFromAuth.onClick.AddListener(StateWindowWhenExitFromAccaunt);
+
 
         btnLike.onClick.AddListener(StateWindowUILikes);
         btnLike.onClick.AddListener(cardsControllerModel.invokeLikesCards);
@@ -110,6 +121,16 @@ public class TopMenuController : MonoBehaviour
         genreDropdown.gameObject.SetActive(true);
         btnAccept.gameObject.SetActive(true);
     }
+
+    private void StateWindowWhenExitFromAccaunt()
+    {
+        UIProfile.SetActive(false);
+        UIAuth.SetActive(true);
+        UIGame.SetActive(false);
+        //UIScrollCards.SetActive(false);
+
+    }
+
 
     private void StateWindowBack()
     {

@@ -14,6 +14,7 @@ public class MenuController : MonoBehaviour
     [SerializeField] private Button btnBack;
 
     //private GameObject activeWindow = null;
+    [SerializeField] private Button btnWxitFromAuth;
 
 
     private void Awake()
@@ -21,6 +22,8 @@ public class MenuController : MonoBehaviour
         btnSettings.onClick.AddListener(StateWindowUISettings);
         btnNext.onClick.AddListener(StateWindowUIMenu);
         btnBack.onClick.AddListener(StateWindowCloseUISettings);
+        btnBack.onClick.AddListener(StateWindowCloseUISettings);
+
     }
 
     private void StateWindowUISettings()

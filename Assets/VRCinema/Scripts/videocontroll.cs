@@ -13,6 +13,9 @@ public class videocontroll : MonoBehaviour
     void Update()
     {
 
+        //if(Input.Get) { }
+
+
         if (Input.GetKeyDown(KeyCode.F))
         {
 
