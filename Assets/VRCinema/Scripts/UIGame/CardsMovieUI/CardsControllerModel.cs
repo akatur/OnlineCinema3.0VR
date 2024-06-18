@@ -393,6 +393,7 @@ public class CardsControllerModel : MonoBehaviour
     {
         MovieCards[] movies = JsonConvert.DeserializeObject<MovieCards[]>(json);
         Debug.Log(json + " fav");
+        WatchedList.Clear();
 
         foreach (var movie in movies)
         {
