@@ -117,7 +117,6 @@ public class AuthPresenter : MonoBehaviour
         string movieDuration = duration.text.Trim();
         string releaseyear = releaseYear.text.Trim();
 
-
         authModel.AddMovie(namemovie, genre, urlMovie, photoUrlMovie, discription, movieRating, movieDuration, releaseyear);
     }
 

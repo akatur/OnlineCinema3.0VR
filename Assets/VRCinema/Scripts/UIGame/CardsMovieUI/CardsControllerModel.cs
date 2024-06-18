@@ -8,7 +8,6 @@ using System;
 using Newtonsoft.Json;
 using UnityEngine.Networking;
 using System.Linq;
-//using UnityEditor.Search;
 using System.Drawing.Printing;
 using Google.Protobuf.WellKnownTypes;
 using UnityEngine.UIElements.Experimental;
@@ -35,13 +34,8 @@ public class CardsControllerModel : MonoBehaviour
     public List<MovieCards> ToPanoram = new();
     public List<MovieCards> CommentsList = new();
 
-
-    //public Dropdown genreDropdown;
     public TMP_Dropdown genreDropdown;
-
     private HashSet<string> uniqueTitlesInt = new HashSet<string>();
-
-
 
 
 
@@ -124,7 +118,6 @@ public class CardsControllerModel : MonoBehaviour
             try
             {
                 GenreData[] genreDataArray = JsonConvert.DeserializeObject<GenreData[]>(json);
-
                 genreDropdown.ClearOptions();
 
                 HashSet<string> uniqueGenres = new HashSet<string>();

@@ -165,23 +165,19 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
             Vector2 updatedSize = Vector2.zero;
             if (maxWidth < 0.0f)
             {
-                // Set to the width of the panel
                 updatedSize.x = rect.width;
             }
             else
             {
-                // Set to the max width
                 updatedSize.x = maxWidth;
             }
 
             if (maxHeight < 0.0f)
             {
-                // Set to the height of the panel
                 updatedSize.y = rect.height;
             }
             else
             {
-                // Set to the max height
                 updatedSize.y = maxHeight;
             }
 
@@ -194,7 +190,6 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
             for (int i = 0; i < Items.Count; i++)
             {
 
-                // Ensure the anchors and pivot are set properly for positioning in the UICollection
                 Items[i].anchorMin = anchorVec;
                 Items[i].anchorMax = anchorVec;
                 Items[i].pivot = anchorVec;
@@ -203,29 +198,23 @@ namespace Microsoft.MixedReality.Toolkit.Experimental.UI
 
                 if (Items[i].rect.width + currentOffset.x > updatedSize.x)
                 {
-                    // Move to next column
                     currentOffset.y += columnHeight + verticalSpacing;
                     currentOffset.x = 0.0f;
                     columnHeight = Items[i].rect.height;
 
-                    // Check to see if it can fit in the next column
                     if (Items[i].rect.height + currentOffset.y > updatedSize.y)
                     {
-                        // Bail out... can't fit any more items!!!
                         break;
                     }
                 }
 
-                // Position item
                 Items[i].anchoredPosition = new Vector2(currentOffset.x, -currentOffset.y);
 
-                // Update current offset
                 currentOffset.x += Items[i].rect.width + horizontalSpacing;
 
                 maxPanelWidth = Mathf.Max(currentOffset.x - horizontalSpacing, maxPanelWidth);
             }
 
-            // Update the panel size
             float finalWidth = maxWidth < 0.0f ? rect.width : maxPanelWidth;
             float finalHeight = maxHeight < 0.0f ? rect.height : columnHeight + currentOffset.y;
             rectTransform.sizeDelta = new Vector2(finalWidth, finalHeight);

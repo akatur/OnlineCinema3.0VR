@@ -230,6 +230,10 @@ public class authModel : MonoBehaviour
             {
                 Debug.Log("Логин, пароль или никнейм содержат запрещенные символы");
             }
+            else if (login.Length > 20 || password.Length > 20 || nickname.Length > 20)
+            {
+                Debug.Log("Логин, пароль или никнейм слишком длинные (не более 20 символов)");
+            }
             else
             {
                 StartCoroutine(GetRegUser(login, password, nickname));
